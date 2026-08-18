@@ -1,0 +1,14 @@
+networks:
+  default: studionet
+  studionet:
+    accounts:
+      - "${CONSENSUS_BRIEF_DEPLOYER_PRIVATE_KEY}"
+    leader_only: false
+    default_wait_interval: 20000
+    default_wait_retries: 90
+
+environment: .gltest.env
+
+paths:
+  contracts: contracts
+  artifacts: artifacts

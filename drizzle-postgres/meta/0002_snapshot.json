@@ -1,0 +1,219 @@
+{
+  "id": "90819084-ae94-4da9-8078-469174b6f73c",
+  "prevId": "98aae365-4bc8-4e5c-a211-15fefdd75373",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.briefs": {
+      "name": "briefs",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "share_slug": {
+          "name": "share_slug",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "creator_wallet": {
+          "name": "creator_wallet",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "request_title": {
+          "name": "request_title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "source_text": {
+          "name": "source_text",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "source_word_count": {
+          "name": "source_word_count",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "target_words": {
+          "name": "target_words",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "result_word_count": {
+          "name": "result_word_count",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "contract_record": {
+          "name": "contract_record",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "contract_address": {
+          "name": "contract_address",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "transaction_hash": {
+          "name": "transaction_hash",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "chain_id": {
+          "name": "chain_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 61999
+        },
+        "chain_status": {
+          "name": "chain_status",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "contract_created_at": {
+          "name": "contract_created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "indexed_at": {
+          "name": "indexed_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "briefs_share_slug_unique": {
+          "name": "briefs_share_slug_unique",
+          "columns": [
+            {
+              "expression": "share_slug",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "briefs_transaction_hash_unique": {
+          "name": "briefs_transaction_hash_unique",
+          "columns": [
+            {
+              "expression": "transaction_hash",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "briefs_creator_created_idx": {
+          "name": "briefs_creator_created_idx",
+          "columns": [
+            {
+              "expression": "creator_wallet",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "contract_created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "briefs_recent_idx": {
+          "name": "briefs_recent_idx",
+          "columns": [
+            {
+              "expression": "contract_created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "briefs_chain_status_check": {
+          "name": "briefs_chain_status_check",
+          "value": "\"briefs\".\"chain_status\" in ('ACCEPTED', 'FINALIZED')"
+        },
+        "briefs_target_words_check": {
+          "name": "briefs_target_words_check",
+          "value": "\"briefs\".\"target_words\" in (200, 400, 600, 1000)"
+        },
+        "briefs_source_word_count_check": {
+          "name": "briefs_source_word_count_check",
+          "value": "\"briefs\".\"source_word_count\" between 50 and 5000"
+        },
+        "briefs_result_word_count_check": {
+          "name": "briefs_result_word_count_check",
+          "value": "\"briefs\".\"result_word_count\" between 160 and 1000"
+        },
+        "briefs_chain_id_check": {
+          "name": "briefs_chain_id_check",
+          "value": "\"briefs\".\"chain_id\" = 61999"
+        }
+      },
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

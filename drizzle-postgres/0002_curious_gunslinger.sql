@@ -1,0 +1,2 @@
+ALTER TABLE "briefs" DROP CONSTRAINT "briefs_source_word_count_check";--> statement-breakpoint
+ALTER TABLE "briefs" ADD CONSTRAINT "briefs_source_word_count_check" CHECK ("briefs"."source_word_count" between 50 and 5000);
